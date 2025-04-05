@@ -1,0 +1,36 @@
+"use client";
+
+import { ProductModel } from "@/models/product";
+import { supabase } from "@/utils/supabase";
+import { useEffect, useState } from "react";
+import Product from "./Product";
+
+const FeaturedProducts = () => {
+  const [products, setProducts] = useState<ProductModel[] | null>(null);
+  useEffect(() => {
+    const getProducts = async () => {
+      let _products: ProductModel[] = [];
+      const { data } = await supabase.from("product").select("*, category(*)");
+
+      data?.map((e) => {
+        _products?.push(new ProductModel(e));
+      });
+      setProducts(_products);
+    };
+    getProducts();
+  }, []);
+
+  return (
+    <div className="bg-[#f6f6f6] p-[32px] mb-[60px]">
+      <h1 className="font-bold">FEATURED PRODUCTS</h1>
+      <hr />
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 mt-[20px] gap-[16px]">
+        {products?.map((e) => {
+          return <Product product={e} key={e.id} />;
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default FeaturedProducts;
