@@ -4,6 +4,7 @@ import { ProductModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 import Product from "./Product";
+import Shimmer from "./Shimmer";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState<ProductModel[] | null>(null);
@@ -25,9 +26,11 @@ const FeaturedProducts = () => {
       <h1 className="font-bold">FEATURED PRODUCTS</h1>
       <hr />
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 mt-[20px] gap-[16px]">
-        {products?.map((e) => {
-          return <Product product={e} key={e.id} />;
-        })}
+        {products
+          ? products?.map((e) => {
+              return <Product product={e} key={e.id} />;
+            })
+          : [<Shimmer />, <Shimmer />, <Shimmer />]}
       </div>
     </div>
   );

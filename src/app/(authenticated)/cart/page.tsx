@@ -6,7 +6,6 @@ import { User } from "@supabase/supabase-js";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import NavBar from "../components/NavBar";
 
 const Cart = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -47,7 +46,6 @@ const Cart = () => {
   return (
     <>
       <ToastContainer />
-      <NavBar index={2} />
       <div className="flex flex-col gap-[8px]">
         {carts?.map((cart) => {
           return (

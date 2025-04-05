@@ -7,10 +7,8 @@ import { Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-interface NavBarProps {
-  index: number;
-}
-const NavBar = (props: NavBarProps) => {
+
+const NavBar = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isOpen, setOpen] = useState(false);
@@ -25,36 +23,23 @@ const NavBar = (props: NavBarProps) => {
     const getUser = async () => {
       const user = await supabase.auth.getUser();
       setCurrentUser(user.data.user);
-      console.log(`new id: ${user.data.user?.id}`);
     };
     getUser();
   });
   return (
     <div className="sticky top-0 z-50">
-      <div className="flex justify-between bg-white p-[16px]">
+      <div className="flex justify-between items-center bg-white p-[16px]">
         <p className="font-bold">
           <Link href="/home">&apos;UR REST STOP</Link>
         </p>
         <ul className="hidden md:flex justify-center gap-[24px]">
-          <li
-            className={`hover:text-gray-500 cursor-pointer ${
-              props.index === 0 ? "underline underline-offset-[5px]" : ""
-            }`}
-          >
+          <li className={`hover:text-gray-500 cursor-pointer`}>
             <Link href="/home">Home</Link>
           </li>
-          <li
-            className={`hover:text-gray-500 cursor-pointer ${
-              props.index === 1 ? "underline underline-offset-[5px]" : ""
-            }`}
-          >
+          <li className={`hover:text-gray-500 cursor-pointer`}>
             <Link href="/shop">Shop</Link>
           </li>
-          <li
-            className={`hover:text-gray-500 cursor-pointer ${
-              props.index === 2 ? "underline" : ""
-            }`}
-          >
+          <li className={`hover:text-gray-500 cursor-pointer`}>
             <Link href="/cart">Cart</Link>
           </li>
         </ul>

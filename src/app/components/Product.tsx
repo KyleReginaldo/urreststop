@@ -7,6 +7,7 @@ import { MoveRight, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import product1 from "../../../public/images/product1.jpg";
 
@@ -17,36 +18,37 @@ export interface Props {
 const Product = (prop: Props) => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [whoLoads, setWhoLoads] = useState<number | null>(null);
+  const getUser = async () => {
+    const user = await supabase.auth.getUser();
+    setCurrentUser(user.data.user);
+  };
+
   useEffect(() => {
-    const getUser = async () => {
-      const user = await supabase.auth.getUser();
-      setCurrentUser(user.data.user);
-    };
     getUser();
   });
   const notify = (text: string) => toast(text);
 
   const addToCart = async (id: number) => {
     console.log(currentUser?.id);
+    setWhoLoads(id);
+
     const cart = await supabase
       .from("cart")
       .select()
       .eq("product", id)
       .eq("users", currentUser?.id)
       .single();
-    console.log(cart.data);
     if (cart.data) {
       notify("Already in the cart!");
+      setWhoLoads(null);
     } else {
-      await supabase
-        .from("cart")
-        .insert({
-          product: id,
-          users: currentUser?.id,
-        })
-        .then(() => {
-          notify("Added to cart");
-        });
+      await supabase.from("cart").insert({
+        product: id,
+        users: currentUser?.id,
+      });
+      notify("Added to cart");
+      setWhoLoads(null);
     }
   };
   return (
@@ -69,7 +71,19 @@ const Product = (prop: Props) => {
             addToCart(prop.product.id);
           }}
         >
-          Add to Cart <ShoppingCart />
+          {whoLoads && whoLoads === prop.product.id
+            ? "Loading..."
+            : "Add to Cart"}{" "}
+          {whoLoads && whoLoads === prop.product.id ? (
+            <ClipLoader
+              color="white"
+              size={16}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            <ShoppingCart />
+          )}
         </Button>
       </div>
     </div>

@@ -4,8 +4,7 @@ import { CategoryModel, ProductModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import product1 from "../../../public/images/product1.jpg";
-import NavBar from "../components/NavBar";
+import product1 from "../../../../public/images/product1.jpg";
 
 const Shop = () => {
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
@@ -51,7 +50,6 @@ const Shop = () => {
   });
   return (
     <>
-      <NavBar index={1} />
       <div className="flex justify-center gap-[32px] bg-gray-100 p-[32px]">
         <ul className="hidden md:flex flex-col gap-[16px]">
           <li
