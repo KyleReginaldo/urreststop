@@ -7,7 +7,7 @@ export class CartModel {
   product: ProductModel;
   users: User;
 
-  constructor(map: Map<string, any>) {
+  constructor(map: { [key: string]: any }) {
     this.id = map.get("id");
     this.created_at = map.get("created_at");
     this.product = map.get("product");
