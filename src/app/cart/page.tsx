@@ -43,7 +43,7 @@ const Cart = () => {
       getCarts(user.data.user?.id);
     };
     getUser();
-  }, []);
+  });
   return (
     <>
       <ToastContainer />

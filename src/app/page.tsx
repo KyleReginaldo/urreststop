@@ -18,6 +18,6 @@ export default function Home() {
       });
     };
     listenToAuth();
-  }, []);
+  });
   return <></>;
 }

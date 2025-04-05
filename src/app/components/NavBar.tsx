@@ -28,7 +28,7 @@ const NavBar = (props: NavBarProps) => {
       console.log(`new id: ${user.data.user?.id}`);
     };
     getUser();
-  }, []);
+  });
   return (
     <div className="sticky top-0 z-50">
       <div className="flex justify-between bg-white p-[16px]">

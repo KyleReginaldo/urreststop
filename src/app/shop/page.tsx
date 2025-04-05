@@ -37,7 +37,7 @@ const Shop = () => {
   };
   useEffect(() => {
     const getCategories = async () => {
-      let _categories: CategoryModel[] = [];
+      const _categories: CategoryModel[] = [];
       const { data } = await supabase.from("category").select("*");
 
       data?.map((e) => {
@@ -48,7 +48,7 @@ const Shop = () => {
 
     getCategories();
     getProducts();
-  }, []);
+  });
   return (
     <>
       <NavBar index={1} />
@@ -82,7 +82,7 @@ const Shop = () => {
           {products && products.length > 0 ? (
             products?.map((e) => {
               return (
-                <div className="flex flex-col gap-[8px]">
+                <div key={e.id} className="flex flex-col gap-[8px]">
                   <Image alt="" src={product1} className="relative z-0" />
                   <p>{e.name}</p>
                   <p>₱{e.price.toFixed(2)}</p>

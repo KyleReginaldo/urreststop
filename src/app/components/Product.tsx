@@ -23,7 +23,7 @@ const Product = (prop: Props) => {
       setCurrentUser(user.data.user);
     };
     getUser();
-  }, []);
+  });
   const notify = (text: string) => toast(text);
 
   const addToCart = async (id: number) => {
