@@ -12,7 +12,7 @@ const Cart = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [carts, setCarts] = useState<CartModel[] | null>(null);
   const getCarts = async (id: string | undefined) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("cart")
       .select("*, product(*), users(*)")
       .eq("users", id);
@@ -30,7 +30,7 @@ const Cart = () => {
       .from("cart")
       .delete()
       .eq("id", id)
-      .then((_) => {
+      .then(() => {
         toast("Remove from the cart");
         getCarts(currentUser?.id);
       });

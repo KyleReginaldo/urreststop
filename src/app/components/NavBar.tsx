@@ -32,7 +32,7 @@ const NavBar = (props: NavBarProps) => {
   return (
     <div className="sticky top-0 z-50">
       <div className="flex justify-between bg-white p-[16px]">
-        <p className="font-bold">'UR REST STOP</p>
+        <p className="font-bold">&apos;UR REST STOP</p>
         <ul className="hidden md:flex justify-center gap-[24px]">
           <li
             className={`hover:text-gray-500 cursor-pointer ${

@@ -10,7 +10,7 @@ const Explore = () => {
           Delicious Bites & Refreshing Drinks
         </h1>
         <p className="text-[24px] mb-[16px]">
-          Savor flavors at 'UR REST STOP - Your food and drinks haven!
+          Savor flavors at &apos;UR REST STOP - Your food and drinks haven!
         </p>
         <Button className="rounded-none cursor-pointer">Explore Menu</Button>
       </div>

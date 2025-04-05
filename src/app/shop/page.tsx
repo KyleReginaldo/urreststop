@@ -14,26 +14,26 @@ const Shop = () => {
 
   const filterProducts = async (id: number) => {
     selectCategory(id);
-    let _products: ProductModel[] = [];
+    let newProducts: ProductModel[] = [];
     const { data } = await supabase
       .from("product")
       .select("*, category(*)")
       .eq("category", id);
 
     data?.map((e) => {
-      _products?.push(new ProductModel(e));
+      newProducts?.push(new ProductModel(e));
     });
-    setProducts(_products);
+    setProducts(newProducts);
   };
   const getProducts = async () => {
     selectCategory(null);
-    let _products: ProductModel[] = [];
+    let newProducts: ProductModel[] = [];
     const { data } = await supabase.from("product").select("*, category(*)");
 
     data?.map((e) => {
-      _products?.push(new ProductModel(e));
+      newProducts?.push(new ProductModel(e));
     });
-    setProducts(_products);
+    setProducts(newProducts);
   };
   useEffect(() => {
     const getCategories = async () => {

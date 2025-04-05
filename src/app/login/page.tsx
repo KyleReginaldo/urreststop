@@ -47,7 +47,7 @@ const Login = () => {
             email: email,
             username: username,
           })
-          .then((e) => {
+          .then(() => {
             router.replace("/");
           });
       }

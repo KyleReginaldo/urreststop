@@ -13,7 +13,7 @@ const UrsInfo = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center gap-[48px] mb-[60px]">
       <div className="flex flex-col items-center gap-[20px]">
-        <p className="text-[18px] font-bold">'UR REST STOP</p>
+        <p className="text-[18px] font-bold">&apos;UR REST STOP</p>
         <p className="text-center text-[15px] text-gray-600">
           163 Sotto, General Trias, Cavite, Philippines
         </p>
