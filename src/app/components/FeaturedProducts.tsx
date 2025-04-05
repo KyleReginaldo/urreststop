@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
           ? products?.map((e) => {
               return <Product product={e} key={e.id} />;
             })
-          : [<Shimmer />, <Shimmer />, <Shimmer />]}
+          : [<Shimmer key={1} />, <Shimmer key={2} />, <Shimmer key={3} />]}
       </div>
     </div>
   );
