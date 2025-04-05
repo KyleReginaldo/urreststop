@@ -16,10 +16,10 @@ const UrStory = () => {
         <div className="flex-none max-w-[600px] mx-[16px] md:ml-0">
           <h1 className="text-[20px] font-bold">Our Passion for Food</h1>
           <p>
-            At &apos;UR REST STOP,' we believe that food is not just sustenance;
-            it's an experience. Our passion drives us to create desserts that
-            reflect the rich flavors of using only the freshest ingredients and
-            delivering them freshly to your door.
+            At &apos;UR REST STOP,&apos; we believe that food is not just
+            sustenance; it&apos;s an experience. Our passion drives us to create
+            desserts that reflect the rich flavors of using only the freshest
+            ingredients and delivering them freshly to your door.
           </p>
         </div>
       </div>

@@ -44,7 +44,7 @@ const Product = (prop: Props) => {
           product: id,
           users: currentUser?.id,
         })
-        .then((e) => {
+        .then(() => {
           notify("Added to cart");
         });
     }

@@ -14,7 +14,7 @@ const Shop = () => {
 
   const filterProducts = async (id: number) => {
     selectCategory(id);
-    let newProducts: ProductModel[] = [];
+    const newProducts: ProductModel[] = [];
     const { data } = await supabase
       .from("product")
       .select("*, category(*)")
@@ -27,7 +27,7 @@ const Shop = () => {
   };
   const getProducts = async () => {
     selectCategory(null);
-    let newProducts: ProductModel[] = [];
+    const newProducts: ProductModel[] = [];
     const { data } = await supabase.from("product").select("*, category(*)");
 
     data?.map((e) => {
@@ -65,6 +65,7 @@ const Shop = () => {
           {categories?.map((e) => {
             return (
               <li
+                key={e.id}
                 onClick={() => {
                   filterProducts(e.id);
                 }}
