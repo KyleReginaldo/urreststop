@@ -7,10 +7,10 @@ export class CartModel {
   product: ProductModel;
   users: User;
 
-  constructor(map: any) {
-    this.id = map["id"];
-    this.created_at = map["created_at"];
-    this.product = map["product"];
-    this.users = map["users"];
+  constructor(map: Map<string, any>) {
+    this.id = map.get("id");
+    this.created_at = map.get("created_at");
+    this.product = map.get("product");
+    this.users = map.get("users");
   }
 }

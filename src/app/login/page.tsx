@@ -12,7 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
 
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [index, setIndex] = useState<number>(0);
 
@@ -20,7 +20,7 @@ const Login = () => {
     if (index === 0) {
       console.log("login");
       console.log("luding");
-      setLoading(true);
+      // setLoading(true);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -34,7 +34,7 @@ const Login = () => {
     } else if (index === 1) {
       console.log("login");
       console.log("luding");
-      setLoading(true);
+      // setLoading(true);
       const { data, error } = await supabase.auth.signUp({
         email,
         password,

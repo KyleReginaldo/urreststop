@@ -9,13 +9,13 @@ const FeaturedProducts = () => {
   const [products, setProducts] = useState<ProductModel[] | null>(null);
   useEffect(() => {
     const getProducts = async () => {
-      let _products: ProductModel[] = [];
+      const newProducts: ProductModel[] = [];
       const { data } = await supabase.from("product").select("*, category(*)");
 
       data?.map((e) => {
-        _products?.push(new ProductModel(e));
+        newProducts?.push(new ProductModel(e));
       });
-      setProducts(_products);
+      setProducts(newProducts);
     };
     getProducts();
   }, []);

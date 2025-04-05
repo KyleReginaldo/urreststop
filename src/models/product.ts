@@ -5,13 +5,15 @@ export class ProductModel {
   price: number;
   qty: number;
   category: CategoryModel;
-  constructor(map: any) {
+
+  constructor(map: { [key: string]: any }) {
+    // Adjusted type to represent a plain object
     this.id = map["id"];
     this.created_at = map["created_at"];
     this.name = map["name"];
     this.price = map["price"];
     this.qty = map["qty"];
-    this.category = map["category"];
+    this.category = new CategoryModel(map["category"]); // Assuming "category" is an object
   }
 }
 
@@ -20,7 +22,9 @@ export class CategoryModel {
   created_at: Date;
   name: string;
   is_enabled: boolean;
-  constructor(map: any) {
+
+  constructor(map: { [key: string]: any }) {
+    // Adjusted type to represent a plain object
     this.id = map["id"];
     this.created_at = map["created_at"];
     this.name = map["name"];

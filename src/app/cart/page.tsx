@@ -18,11 +18,11 @@ const Cart = () => {
       .eq("users", id);
     console.log(`id: ${id}`);
     if (data) {
-      let _carts: CartModel[] = [];
+      const newCarts: CartModel[] = [];
       data.map((e) => {
-        _carts.push(e);
+        newCarts.push(e);
       });
-      setCarts(_carts);
+      setCarts(newCarts);
     }
   };
   const removeToCart = async (id: number) => {
@@ -51,7 +51,10 @@ const Cart = () => {
       <div className="flex flex-col gap-[8px]">
         {carts?.map((cart) => {
           return (
-            <div className="flex max-w-[400px] justify-between bg-gray-100 px-[8px] py-[5px] rounded-[8px]">
+            <div
+              key={cart.id}
+              className="flex max-w-[400px] justify-between bg-gray-100 px-[8px] py-[5px] rounded-[8px]"
+            >
               <p>{cart.product.name}</p>
               <X
                 color="red"
