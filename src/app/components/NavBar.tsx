@@ -32,14 +32,16 @@ const NavBar = (props: NavBarProps) => {
   return (
     <div className="sticky top-0 z-50">
       <div className="flex justify-between bg-white p-[16px]">
-        <p className="font-bold">&apos;UR REST STOP</p>
+        <p className="font-bold">
+          <Link href="/home">&apos;UR REST STOP</Link>
+        </p>
         <ul className="hidden md:flex justify-center gap-[24px]">
           <li
             className={`hover:text-gray-500 cursor-pointer ${
               props.index === 0 ? "underline underline-offset-[5px]" : ""
             }`}
           >
-            <Link href="/">Home</Link>
+            <Link href="/home">Home</Link>
           </li>
           <li
             className={`hover:text-gray-500 cursor-pointer ${
