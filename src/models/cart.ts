@@ -6,11 +6,12 @@ export class CartModel {
   created_at: Date;
   product: ProductModel;
   users: User;
+  qty?: number = 1;
 
   constructor(map: { [key: string]: any }) {
-    this.id = map.get("id");
-    this.created_at = map.get("created_at");
-    this.product = map.get("product");
-    this.users = map.get("users");
+    this.id = map["id"];
+    this.created_at = map["created_at"];
+    this.product = map["product"];
+    this.users = map["users"];
   }
 }

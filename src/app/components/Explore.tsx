@@ -14,13 +14,24 @@ const Explore = () => {
         </p>
         <Button className="rounded-none cursor-pointer">Explore Menu</Button>
       </div>
-      <Image
-        src={cookie1}
-        width={450}
-        height={450}
-        objectFit="cover"
-        alt="Cookiega"
-      />
+      <div className="relative flex justify-center items-center">
+        <Image
+          src={cookie1}
+          width={450}
+          height={450}
+          objectFit="cover"
+          alt="Cookiega"
+          className="relative filter blur-2xl"
+        />
+        <Image
+          src={cookie1}
+          width={400}
+          height={400}
+          objectFit="cover"
+          alt="Cookiega"
+          className="absolute z-1 rounded-[10px]"
+        />
+      </div>
     </div>
   );
 };

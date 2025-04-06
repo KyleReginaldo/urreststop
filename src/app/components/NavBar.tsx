@@ -5,13 +5,15 @@ import { supabase } from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
 import { Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NavBar = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isOpen, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (path: string) => pathname === path;
   const logout = async () => {
     await supabase.auth.signOut().then((e) => {
       if (!e.error) {
@@ -33,19 +35,34 @@ const NavBar = () => {
           <Link href="/home">&apos;UR REST STOP</Link>
         </p>
         <ul className="hidden md:flex justify-center gap-[24px]">
-          <li className={`hover:text-gray-500 cursor-pointer`}>
+          <li
+            className={`hover:text-gray-500 cursor-pointer ${
+              isActive("/home") ? "text-[#b18f67]" : ""
+            }`}
+          >
             <Link href="/home">Home</Link>
           </li>
-          <li className={`hover:text-gray-500 cursor-pointer`}>
+          <li
+            className={`hover:text-gray-500 cursor-pointer ${
+              isActive("/shop") ? "text-[#b18f67]" : ""
+            }`}
+          >
             <Link href="/shop">Shop</Link>
           </li>
-          <li className={`hover:text-gray-500 cursor-pointer`}>
+          <li
+            className={`hover:text-gray-500 cursor-pointer ${
+              isActive("/cart") ? "text-[#b18f67]" : ""
+            }`}
+          >
             <Link href="/cart">Cart</Link>
           </li>
         </ul>
 
-        <div className="flex gap-[8px]">
-          <ShoppingCart className="md:hidden" />
+        <div className="flex items-center gap-[8px]">
+          <ShoppingCart
+            className="md:hidden cursor-pointer"
+            onClick={() => router.push("/cart")}
+          />
           {isOpen ? (
             <X
               className="md:hidden cursor-pointer animate-none md:animate-spin"
@@ -68,6 +85,7 @@ const NavBar = () => {
               onClick={() => {
                 logout();
               }}
+              className="hidden md:block"
             >
               Logout
             </Button>
@@ -95,6 +113,13 @@ const NavBar = () => {
         </li>
         <li>
           <Link href="/">Account</Link>
+        </li>
+        <li
+          onClick={() => {
+            logout();
+          }}
+        >
+          Logout
         </li>
       </ul>
     </div>

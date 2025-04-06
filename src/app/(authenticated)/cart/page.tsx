@@ -1,70 +1,148 @@
 "use client";
 
+import CartComponent from "@/app/components/Cart";
+import CInput from "@/app/components/Input";
+import { Button } from "@/components/ui/button";
 import { CartModel } from "@/models/cart";
 import { supabase } from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
-import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
 const Cart = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [carts, setCarts] = useState<CartModel[] | null>(null);
-  const getCarts = async (id: string | undefined) => {
-    const { data } = await supabase
-      .from("cart")
-      .select("*, product(*), users(*)")
-      .eq("users", id);
-    console.log(`id: ${id}`);
-    if (data) {
-      const newCarts: CartModel[] = [];
-      data.map((e) => {
-        newCarts.push(e);
-      });
-      setCarts(newCarts);
-    }
-  };
+  const [cartLoading, setCartLoading] = useState<number | null>(null);
+  const [total, setTotal] = useState<number>(0);
+  const getCarts = useCallback(
+    async (id: string | undefined) => {
+      if (!currentUser) {
+        return;
+      }
+      const { data } = await supabase
+        .from("cart")
+        .select("*, product(*), users(*)")
+        .eq("users", id);
+      setCarts(data ? data.map((e) => new CartModel(e)) : null);
+    },
+    [currentUser]
+  );
+
   const removeToCart = async (id: number) => {
-    await supabase
-      .from("cart")
-      .delete()
-      .eq("id", id)
-      .then(() => {
-        toast("Remove from the cart");
-        getCarts(currentUser?.id);
-      });
+    if (!currentUser) {
+      toast("Please login first.");
+      return;
+    }
+
+    setCartLoading(id);
+
+    try {
+      await supabase.from("cart").delete().eq("id", id);
+      toast("Removed from the cart");
+    } catch (error) {
+      console.error(error);
+      toast("An error occurred. Please try again.");
+    }
+    getCarts(currentUser?.id);
+    setCartLoading(null);
   };
 
+  const getUser = async () => {
+    const user = await supabase.auth.getUser();
+    setCurrentUser(user.data.user);
+  };
+
+  const calculateTotal = useCallback(() => {
+    let total = 0;
+    carts?.forEach((e) => {
+      total += e.product.price * (e.qty ?? 1);
+    });
+    setTotal(total);
+  }, [carts]);
   useEffect(() => {
-    const getUser = async () => {
-      const user = await supabase.auth.getUser();
-      setCurrentUser(user.data.user);
-      getCarts(user.data.user?.id);
-    };
     getUser();
-  });
+    getCarts(currentUser?.id);
+    calculateTotal();
+  }, [carts, currentUser?.id, getCarts, calculateTotal]);
   return (
     <>
       <ToastContainer />
-      <div className="flex flex-col gap-[8px]">
-        {carts?.map((cart) => {
-          return (
-            <div
-              key={cart.id}
-              className="flex max-w-[400px] justify-between bg-gray-100 px-[8px] py-[5px] rounded-[8px]"
-            >
-              <p>{cart.product.name}</p>
-              <X
-                color="red"
-                className="cursor-pointer"
-                onClick={() => {
-                  removeToCart(cart.id);
+      {carts && carts.length > 0 ? (
+        <div className="flex flex-col md:flex-row justify-center gap-[24px]">
+          <div className="flex flex-col gap-[16px] border-[1px] p-[24px] bg-white">
+            <h1>Cart</h1>
+            <hr />
+            {carts?.map((cart) => {
+              return (
+                <CartComponent
+                  key={cart.id}
+                  cart={cart}
+                  loadingId={cartLoading}
+                  onDelete={() => {
+                    removeToCart(cart.id);
+                  }}
+                />
+              );
+            })}
+          </div>
+          <div className="flex flex-col h-fit gap-[10px] border-[1px]  p-[24px] bg-white">
+            <h1>SHIPPING/PICKUP</h1>
+            <div className="flex gap-[10px]">
+              <CInput
+                type="text"
+                placeholder="First Name"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              />
+              <CInput
+                type="text"
+                placeholder="Last Name"
+                onChange={(e) => {
+                  console.log(e.target.value);
                 }}
               />
             </div>
-          );
-        })}
-      </div>
+            <CInput
+              type="text"
+              placeholder="City"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <div className="flex gap-[10px]">
+              <CInput
+                type="text"
+                placeholder="Street Address"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              />
+              <CInput
+                type="text"
+                placeholder="Apt, Unit, Suite, etc (Optional)"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              />
+            </div>
+            <CInput
+              type="text"
+              placeholder="Zip Code"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <div className="flex jsutify-between">
+              <p>Total:</p>
+              <p>{total}</p>
+            </div>
+            <Button className="rounded-[0]">Checkout</Button>
+          </div>
+        </div>
+      ) : (
+        <p className="text-center">No item on the cart.</p>
+      )}
     </>
   );
 };

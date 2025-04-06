@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { ProductModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
@@ -9,80 +10,97 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
-import product1 from "../../../public/images/product1.jpg";
 
 export interface Props {
   product: ProductModel;
 }
 
-const Product = (prop: Props) => {
+const Product = ({ product }: Props) => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [whoLoads, setWhoLoads] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const getUser = async () => {
-    const user = await supabase.auth.getUser();
-    setCurrentUser(user.data.user);
+    const { data } = await supabase.auth.getUser();
+    setCurrentUser(data?.user || null);
   };
 
   useEffect(() => {
     getUser();
-  });
-  const notify = (text: string) => toast(text);
+  }, []);
 
-  const addToCart = async (id: number) => {
-    console.log(currentUser?.id);
-    setWhoLoads(id);
+  const notify = (message: string) => toast(message);
 
-    const cart = await supabase
-      .from("cart")
-      .select()
-      .eq("product", id)
-      .eq("users", currentUser?.id)
-      .single();
-    if (cart.data) {
-      notify("Already in the cart!");
-      setWhoLoads(null);
-    } else {
-      await supabase.from("cart").insert({
-        product: id,
-        users: currentUser?.id,
-      });
-      notify("Added to cart");
-      setWhoLoads(null);
+  const addToCart = async (productId: number) => {
+    if (!currentUser) {
+      notify("Please log in to add to the cart.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { data } = await supabase
+        .from("cart")
+        .select()
+        .eq("product", productId)
+        .eq("users", currentUser?.id)
+        .single();
+
+      if (data) {
+        notify("Product is already in the cart!");
+      } else {
+        await supabase.from("cart").insert({
+          product: productId,
+          users: currentUser?.id,
+        });
+        notify("Added to cart!");
+      }
+    } catch (error) {
+      console.error(error);
+      notify("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className="relative bg-black">
-      <Image alt="" src={product1} className="relative z-0 opacity-80" />
+      <Image
+        alt={product.name}
+        src={product.image_link}
+        layout="fill"
+        objectFit="cover"
+        className="!relative z-0 opacity-80"
+      />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
-        <p className="">{prop.product.name}</p>
-        <p>₱{prop.product.price.toFixed(2)}</p>
+        <p>{product.name}</p>
+        <p>₱{product.price.toFixed(2)}</p>
+
         <Button
           className="cursor-pointer mb-[16px]"
-          onClick={() => {
-            router.push(`/shop/${prop.product.id}`);
-          }}
+          onClick={() => router.push(`/shop/${product.id}`)}
         >
           Shop Now <MoveRight />
-        </Button>{" "}
+        </Button>
+
         <Button
           className="cursor-pointer"
-          onClick={() => {
-            addToCart(prop.product.id);
-          }}
+          onClick={() => addToCart(product.id)}
         >
-          {whoLoads && whoLoads === prop.product.id
-            ? "Loading..."
-            : "Add to Cart"}{" "}
-          {whoLoads && whoLoads === prop.product.id ? (
-            <ClipLoader
-              color="white"
-              size={16}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+          {loading ? (
+            <>
+              Loading...{" "}
+              <ClipLoader
+                color="white"
+                size={16}
+                aria-label="Loading Spinner"
+              />
+            </>
           ) : (
-            <ShoppingCart />
+            <>
+              Add to Cart <ShoppingCart />
+            </>
           )}
         </Button>
       </div>

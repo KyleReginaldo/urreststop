@@ -5,6 +5,7 @@ export class ProductModel {
   price: number;
   qty: number;
   category: CategoryModel;
+  image_link: string;
 
   constructor(map: { [key: string]: any }) {
     // Adjusted type to represent a plain object
@@ -13,7 +14,8 @@ export class ProductModel {
     this.name = map["name"];
     this.price = map["price"];
     this.qty = map["qty"];
-    this.category = new CategoryModel(map["category"]); // Assuming "category" is an object
+    this.category = new CategoryModel(map["category"]);
+    this.image_link = map["image_link"];
   }
 }
 
