@@ -14,7 +14,7 @@ const Explore = () => {
         </p>
         <Button className="rounded-none cursor-pointer">Explore Menu</Button>
       </div>
-      <div className="relative flex justify-center items-center">
+      <div className="hidden relative md:flex justify-center items-center">
         <Image
           src={cookie1}
           width={450}

@@ -101,7 +101,7 @@ const NavBar = () => {
       </div>
 
       <ul
-        className={`flex flex-col justify-center items-center gap-[10px] ${
+        className={`md:hidden flex flex-col justify-center items-center gap-[10px] ${
           isOpen ? "h-32" : "h-0"
         } bg-white transition-all delay-150 duration-300 overflow-hidden w-full`}
       >

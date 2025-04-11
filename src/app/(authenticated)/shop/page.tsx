@@ -1,6 +1,7 @@
 "use client";
 
-import { CategoryModel, ProductModel } from "@/models/product";
+import { useProduct } from "@/app/state/product_state";
+import { CategoryModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -8,24 +9,10 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const Shop = () => {
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const [products, setProducts] = useState<ProductModel[] | null>(null);
   const [selectedCategory, selectCategory] = useState<number | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const { loading, products, setCategoryId } = useProduct();
 
   // Fetch products based on selected category
-  const fetchProducts = async (categoryId: number | null) => {
-    setLoading(true);
-    const query = supabase.from("product").select("*, category(*)");
-
-    if (categoryId) {
-      query.eq("category", categoryId); // Filter products by category
-    }
-
-    const { data } = await query;
-    const fetchedProducts = data?.map((e) => new ProductModel(e)) || [];
-    setLoading(false);
-    setProducts(fetchedProducts);
-  };
 
   // Fetch categories from the database
   const fetchCategories = async () => {
@@ -37,7 +24,6 @@ const Shop = () => {
   // Initialize data fetch
   const fetchData = useCallback(() => {
     fetchCategories();
-    fetchProducts(null); // Fetch all products initially
   }, []);
 
   useEffect(() => {
@@ -46,8 +32,8 @@ const Shop = () => {
 
   // Handle category selection
   const handleCategorySelect = (categoryId: number) => {
-    selectCategory(categoryId); // Update the selected category
-    fetchProducts(categoryId); // Fetch products based on the selected category
+    selectCategory(categoryId);
+    setCategoryId(categoryId);
   };
 
   return (
@@ -56,7 +42,7 @@ const Shop = () => {
         <li
           onClick={() => {
             selectCategory(null); // Reset the selected category
-            fetchProducts(null); // Fetch all products
+            setCategoryId(null);
           }}
           className={`cursor-pointer ${
             !selectedCategory
@@ -85,7 +71,7 @@ const Shop = () => {
         )}
       </ul>
 
-      {isLoading ? (
+      {loading ? (
         <ClipLoader />
       ) : products && products.length > 0 ? (
         <div className="grid grid-cols-1 content-center md:grid-cols-4 xl:grid-cols-6 gap-[32px]">

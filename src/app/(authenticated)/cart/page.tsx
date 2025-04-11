@@ -2,8 +2,8 @@
 
 import CartComponent from "@/app/components/Cart";
 import CInput from "@/app/components/Input";
+import { useGetCarts } from "@/app/state/cart_state";
 import { Button } from "@/components/ui/button";
-import { CartModel } from "@/models/cart";
 import { supabase } from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
@@ -11,22 +11,9 @@ import { toast, ToastContainer } from "react-toastify";
 
 const Cart = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [carts, setCarts] = useState<CartModel[] | null>(null);
   const [cartLoading, setCartLoading] = useState<number | null>(null);
   const [total, setTotal] = useState<number>(0);
-  const getCarts = useCallback(
-    async (id: string | undefined) => {
-      if (!currentUser) {
-        return;
-      }
-      const { data } = await supabase
-        .from("cart")
-        .select("*, product(*), users(*)")
-        .eq("users", id);
-      setCarts(data ? data.map((e) => new CartModel(e)) : null);
-    },
-    [currentUser]
-  );
+  const { carts, setUser } = useGetCarts();
 
   const removeToCart = async (id: number) => {
     if (!currentUser) {
@@ -43,13 +30,7 @@ const Cart = () => {
       console.error(error);
       toast("An error occurred. Please try again.");
     }
-    getCarts(currentUser?.id);
     setCartLoading(null);
-  };
-
-  const getUser = async () => {
-    const user = await supabase.auth.getUser();
-    setCurrentUser(user.data.user);
   };
 
   const calculateTotal = useCallback(() => {
@@ -60,16 +41,20 @@ const Cart = () => {
     setTotal(total);
   }, [carts]);
   useEffect(() => {
-    getUser();
-    getCarts(currentUser?.id);
+    const getUser = async () => {
+      const user = await supabase.auth.getUser();
+      setCurrentUser(user.data.user);
+      setUser(user.data.user);
+    };
     calculateTotal();
-  }, [carts, currentUser?.id, getCarts, calculateTotal]);
+    getUser();
+  }, [calculateTotal, setUser]);
   return (
     <>
       <ToastContainer />
       {carts && carts.length > 0 ? (
         <div className="flex flex-col md:flex-row justify-center gap-[24px]">
-          <div className="flex flex-col gap-[16px] border-[1px] p-[24px] bg-white">
+          <div className="flex flex-col gap-[16px] border-[1px] p-[24px] bg-white h-fit">
             <h1>Cart</h1>
             <hr />
             {carts?.map((cart) => {

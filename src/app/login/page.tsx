@@ -61,11 +61,13 @@ const Login = () => {
     <div className="flex justify-center items-center bg-gray-200 h-screen">
       <div className="flex m-4 bg-white">
         <div className="flex flex-col justify-center gap-[16px] max-w-[600px] max-h-[800px] py-[24px] px-[32px]">
-          <p className="text-4xl font-bold text-center"> Wake n Bake</p>
+          <p className="text-4xl font-bold text-center"></p>
           <div className="mt-10 ">
-            <h2 className="text-2xl font-bold text-center ">Welcome Back</h2>
+            <h2 className="text-2xl font-bold text-center ">
+              &apos;UR REST STOP
+            </h2>
             <p className="text-[14px] text-center font-light text-gray-600 mb-4">
-              Welcome Back, Please enter your details
+              Welcome Back!
             </p>
             <div className="flex justify-around text-center bg-gray-200 rounded-md py-1 px-1 mb-5">
               <div
@@ -89,27 +91,32 @@ const Login = () => {
                 Sign up
               </div>
             </div>
-
+            {index === 1 ? (
+              <>
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  className="border-2 mb-[16px] py-[6px] px-[12px] rounded-[8px] text-[15px] w-[100%]"
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </>
+            ) : null}
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               className="border-2 mb-[16px] py-[6px] px-[12px] rounded-[8px] text-[15px] w-[100%]"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               className="border-2 mb-[16px] py-[6px] px-[12px] rounded-[8px] text-[15px] w-[100%]"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            {index === 1 ? (
-              <input
-                type="text"
-                className="border-2 mb-[16px] py-[6px] px-[12px] rounded-[8px] text-[15px] w-[100%]"
-                placeholder="username"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            ) : null}
+
             {error ? (
               <p className="text-red-500 text-[14px] mb-[8px]">{error}</p>
             ) : null}
@@ -119,7 +126,7 @@ const Login = () => {
                 handleSumbit();
               }}
             >
-              {index === 0 ? "Login" : "Signup"}
+              {index === 0 ? "Login" : "Sign Up"}
             </Button>
             {/* <div className="relative flex py-3 items-center mb-2">
                 <div className="flex-grow border-t border-gray-400"></div>
