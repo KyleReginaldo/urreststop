@@ -29,7 +29,7 @@ const Explore = () => {
           height={400}
           objectFit="cover"
           alt="Cookiega"
-          className="absolute z-1 rounded-[10px]"
+          className="absolute z-0 rounded-[10px]"
         />
       </div>
     </div>

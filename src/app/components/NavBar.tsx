@@ -7,8 +7,10 @@ import { Menu, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import LogoutModal from "./LogoutModal";
 
 const NavBar = () => {
+  const [modalOpen, setModal] = useState<boolean>(false);
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isOpen, setOpen] = useState(false);
@@ -83,7 +85,8 @@ const NavBar = () => {
           {currentUser ? (
             <Button
               onClick={() => {
-                logout();
+                // logout();
+                setModal(!modalOpen);
               }}
               className="hidden md:block"
             >
@@ -106,22 +109,48 @@ const NavBar = () => {
         } bg-white transition-all delay-150 duration-300 overflow-hidden w-full`}
       >
         <li>
-          <Link href="/">Home</Link>
+          <Link
+            href="/"
+            className={`${isActive("/home") ? "text-[#b18f67]" : ""}`}
+          >
+            Home
+          </Link>
         </li>
         <li>
-          <Link href="/shop">Shop</Link>
+          <Link
+            href="/shop"
+            className={`${isActive("/shop") ? "text-[#b18f67]" : ""}`}
+          >
+            {" "}
+            Shop
+          </Link>
         </li>
         <li>
-          <Link href="/">Account</Link>
+          <Link
+            href="/"
+            className={`${isActive("/account") ? "text-[#b18f67]" : ""}`}
+          >
+            Account
+          </Link>
         </li>
         <li
           onClick={() => {
-            logout();
+            // logout();
+            setModal(!modalOpen);
           }}
         >
           Logout
         </li>
       </ul>
+      <LogoutModal
+        isVisible={modalOpen}
+        onClose={() => {
+          setModal(false);
+        }}
+        onLogout={() => {
+          logout();
+        }}
+      />
     </div>
   );
 };

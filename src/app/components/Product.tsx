@@ -65,7 +65,7 @@ const Product = ({ product }: Props) => {
   };
 
   return (
-    <div className="relative bg-black">
+    <div className="group relative bg-black">
       <Image
         alt={product.name}
         src={product.image_link}
@@ -73,19 +73,19 @@ const Product = ({ product }: Props) => {
         objectFit="cover"
         className="!relative z-0 opacity-80"
       />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
-        <p>{product.name}</p>
-        <p>₱{product.price.toFixed(2)}</p>
+      <div className="absolute bottom-0 left-0 right-0 text-white hidden group-hover:flex flex-col bg-[#00000050] p-[10px]">
+        <p className="text-[16px] font-normal">{product.name}</p>
+        <p className="text-[15px] font-medium">₱{product.price.toFixed(2)}</p>
 
         <Button
-          className="cursor-pointer mb-[16px]"
+          className="cursor-pointer mb-[16px] w-fit"
           onClick={() => router.push(`/shop/${product.id}`)}
         >
           Shop Now <MoveRight />
         </Button>
 
         <Button
-          className="cursor-pointer"
+          className="cursor-pointer w-fit"
           onClick={() => addToCart(product.id)}
         >
           {loading ? (
