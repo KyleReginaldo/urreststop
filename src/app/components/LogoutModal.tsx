@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 
-const LogoutModal = ({ isVisible, onClose, onLogout }) => {
-  if (!isVisible) return null;
+type LogoutModalType = {
+  isVisible: boolean;
+  onClose: () => void;
+  onLogout: () => void;
+};
+const LogoutModal = (props: LogoutModalType) => {
+  if (!props.isVisible) return null;
   return (
     <>
       <div className="fixed inset-0 bg-black/25 backdrop-blur-sm flex justify-center items-center">
@@ -13,7 +18,7 @@ const LogoutModal = ({ isVisible, onClose, onLogout }) => {
               <Button
                 className="bg-gray-500 rounded-[0]"
                 onClick={() => {
-                  onClose();
+                  props.onClose();
                 }}
               >
                 Close
@@ -21,7 +26,7 @@ const LogoutModal = ({ isVisible, onClose, onLogout }) => {
               <Button
                 className="bg-red-500 rounded-[0]"
                 onClick={() => {
-                  onLogout();
+                  props.onLogout();
                 }}
               >
                 Logout
