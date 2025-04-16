@@ -73,24 +73,24 @@ const Product = ({ product }: Props) => {
         objectFit="cover"
         className="!relative z-0 opacity-80"
       />
-      <div className="absolute bottom-0 left-0 right-0 text-white hidden group-hover:flex flex-col bg-[#00000050] p-[10px]">
+      <div className="absolute bottom-0 left-0 right-0 text-white md:hidden group-hover:md:flex flex flex-col bg-[#00000050] p-[10px]">
         <p className="text-[16px] font-normal">{product.name}</p>
         <p className="text-[15px] font-medium">₱{product.price.toFixed(2)}</p>
 
         <Button
-          className="cursor-pointer mb-[16px] w-fit"
+          className="cursor-pointer mb-[16px] w-fit bg-white text-[#BF9264] rounded-none"
           onClick={() => router.push(`/shop/${product.id}`)}
         >
           Shop Now <MoveRight />
         </Button>
 
         <Button
-          className="cursor-pointer w-fit"
+          className="cursor-pointer w-fit bg-[#BF9264] rounded-none"
           onClick={() => addToCart(product.id)}
         >
           {loading ? (
             <>
-              Loading...{" "}
+              Loading...
               <ClipLoader
                 color="white"
                 size={16}

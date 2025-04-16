@@ -14,4 +14,7 @@ export class CartModel {
     this.product = map["product"];
     this.users = map["users"];
   }
+  updateQty(newQty: number) {
+    this.qty = newQty;
+  }
 }

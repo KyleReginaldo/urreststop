@@ -8,7 +8,7 @@ import UrStory from "../../components/UrStory";
 const Home = () => {
   return (
     <div className="scroll-smooth ">
-      <ToastContainer />
+      <ToastContainer theme="colored" />
       <Explore />
       <UrStory />
       <FeaturedProducts />

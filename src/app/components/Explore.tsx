@@ -1,8 +1,12 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import cookie1 from "../../../public/images/cookie1.jpg";
 
 const Explore = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col-reverse md:flex-row justify-center gap-[24px] items-center mt-[32px] mb-[64px]">
       <div className="max-w-[500px] mx-[16px] md:ml-[16px]">
@@ -12,7 +16,12 @@ const Explore = () => {
         <p className="text-[24px] mb-[16px]">
           Savor flavors at &apos;UR REST STOP - Your food and drinks haven!
         </p>
-        <Button className="rounded-none cursor-pointer">Explore Menu</Button>
+        <Button
+          className="rounded-none cursor-pointer bg-[#BF9264]"
+          onClick={() => router.push("/shop")}
+        >
+          Explore Menu
+        </Button>
       </div>
       <div className="hidden relative md:flex justify-center items-center">
         <Image

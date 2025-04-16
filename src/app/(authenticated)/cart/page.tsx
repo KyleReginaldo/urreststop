@@ -8,21 +8,28 @@ import { supabase } from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+class TotalPrice {
+  id: number;
+  total: number;
+  constructor(id: number, total: number) {
+    this.id = id;
+    this.total = total;
+  }
+}
 
 const Cart = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { carts } = useGetCarts(currentUser);
   const [cartLoading, setCartLoading] = useState<number | null>(null);
-  const [total, setTotal] = useState<number>(0);
-  const { carts, setUser } = useGetCarts();
+  const [total, setTotal] = useState<TotalPrice[]>([]);
+  const [isCalled, setIsCalled] = useState(false);
 
   const removeToCart = async (id: number) => {
     if (!currentUser) {
       toast("Please login first.");
       return;
     }
-
     setCartLoading(id);
-
     try {
       await supabase.from("cart").delete().eq("id", id);
       toast("Removed from the cart");
@@ -34,38 +41,67 @@ const Cart = () => {
   };
 
   const calculateTotal = useCallback(() => {
-    let total = 0;
+    console.log("called");
+    const newTotal: TotalPrice[] = [];
+    console.log(`called 2: ${carts?.length}`);
+
     carts?.forEach((e) => {
-      total += e.product.price * (e.qty ?? 1);
+      console.log(`tutal: ${e}`);
+
+      newTotal.push(new TotalPrice(e.id, e.product.price));
+      console.log(`total: ${e}`);
     });
-    setTotal(total);
+    console.log(newTotal);
+    setTotal(newTotal);
   }, [carts]);
+  const getTotal = (totals: TotalPrice[]) => {
+    let locTotal = 0;
+    totals.forEach((e) => {
+      locTotal += e.total;
+    });
+    return locTotal;
+  };
   useEffect(() => {
     const getUser = async () => {
       const user = await supabase.auth.getUser();
       setCurrentUser(user.data.user);
-      setUser(user.data.user);
     };
-    calculateTotal();
     getUser();
-  }, [calculateTotal, setUser]);
+    console.log(isCalled);
+    if (!isCalled && carts) {
+      console.log("titer");
+      calculateTotal();
+
+      setIsCalled(true);
+    }
+  }, [carts, calculateTotal, isCalled]);
+
+  const updateCartTotal = (id: number, newTotal: number) => {
+    const value = total.find((t) => t.id === id);
+    if (value) {
+      value.total = newTotal;
+      setTotal([...total]);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
       {carts && carts.length > 0 ? (
-        <div className="flex flex-col md:flex-row justify-center gap-[24px]">
+        <div className="flex flex-col md:flex-row justify-center gap-[24px] m-[24px]">
           <div className="flex flex-col gap-[16px] border-[1px] p-[24px] bg-white h-fit">
             <h1>Cart</h1>
             <hr />
             {carts?.map((cart) => {
+              console.log(`cart qty ${cart.id}: ${cart.qty}`);
               return (
                 <CartComponent
                   key={cart.id}
                   cart={cart}
                   loadingId={cartLoading}
-                  onDelete={() => {
-                    removeToCart(cart.id);
-                  }}
+                  onDelete={() => removeToCart(cart.id)}
+                  onDecrement={(id, newTotal) => updateCartTotal(id, newTotal)}
+                  onIncrement={(id, newTotal) => updateCartTotal(id, newTotal)}
                 />
               );
             })}
@@ -118,9 +154,9 @@ const Cart = () => {
                 console.log(e.target.value);
               }}
             />
-            <div className="flex jsutify-between">
-              <p>Total:</p>
-              <p>{total}</p>
+            <div className="flex justify-between">
+              <p>Total</p>
+              <p>₱{getTotal(total)}</p>
             </div>
             <Button className="rounded-[0]">Checkout</Button>
           </div>

@@ -49,9 +49,9 @@ const Shop = () => {
             }}
             className={`cursor-pointer ${
               !selectedCategory
-                ? "border-[#b18f67] text-[#b19068] bg-[#b1906828]"
+                ? "border-[#F8F4E1] text-[#b19068] bg-[#b1906828]"
                 : "border-gray-300 text-gray-500"
-            } transition-all border-[1px] px-[8px] py-[2px] rounded-[25px]`}
+            } transition-all border-[1px] px-[8px] py-[2px] rounded-[25px] content-center line-clamp-1`}
           >
             All Products
           </li>
@@ -62,9 +62,9 @@ const Shop = () => {
                 onClick={() => handleCategorySelect(category.id)}
                 className={`cursor-pointer ${
                   category.id === selectedCategory
-                    ? "border-[#b18f67] text-[#b19068] bg-[#b1906828]"
+                    ? "border-[#F8F4E1] text-[#b19068] bg-[#b1906828]"
                     : "border-gray-300 text-gray-500"
-                } transition-all border-[1px] px-[8px] py-[2px] rounded-[25px]`}
+                } transition-all border-[1px] px-[8px] py-[2px] rounded-[25px] line-clamp-1`}
               >
                 {category.name}
               </li>

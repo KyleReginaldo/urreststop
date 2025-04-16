@@ -32,28 +32,28 @@ const NavBar = () => {
   });
   return (
     <div className="sticky top-0 z-50">
-      <div className="flex justify-between items-center bg-white p-[16px]">
-        <p className="font-bold">
+      <div className="flex justify-between items-center bg-[#BF9264] p-[16px]">
+        <p className="font-bold text-[#F8F4E1]">
           <Link href="/home">&apos;UR REST STOP</Link>
         </p>
         <ul className="hidden md:flex justify-center gap-[24px]">
           <li
             className={`hover:text-gray-500 cursor-pointer ${
-              isActive("/home") ? "text-[#b18f67]" : ""
+              isActive("/home") ? "text-[white] font-medium" : "text-[#DBDBDB]"
             }`}
           >
             <Link href="/home">Home</Link>
           </li>
           <li
             className={`hover:text-gray-500 cursor-pointer ${
-              isActive("/shop") ? "text-[#b18f67]" : ""
+              isActive("/shop") ? "text-[white] font-medium" : "text-[#DBDBDB]"
             }`}
           >
             <Link href="/shop">Shop</Link>
           </li>
           <li
             className={`hover:text-gray-500 cursor-pointer ${
-              isActive("/cart") ? "text-[#b18f67]" : ""
+              isActive("/cart") ? "text-[white] font-medium" : "text-[#DBDBDB]"
             }`}
           >
             <Link href="/cart">Cart</Link>
@@ -62,12 +62,12 @@ const NavBar = () => {
 
         <div className="flex items-center gap-[8px]">
           <ShoppingCart
-            className="md:hidden cursor-pointer"
+            className="md:hidden cursor-pointer text-white"
             onClick={() => router.push("/cart")}
           />
           {isOpen ? (
             <X
-              className="md:hidden cursor-pointer animate-none md:animate-spin"
+              className="md:hidden cursor-pointer animate-none md:animate-spin text-white"
               onClick={() => {
                 setOpen(!isOpen);
                 console.log("open the close");
@@ -75,7 +75,7 @@ const NavBar = () => {
             />
           ) : (
             <Menu
-              className="md:hidden cursor-pointer animate-none md:animate-spin"
+              className="md:hidden cursor-pointer animate-none md:animate-spin text-white"
               onClick={() => {
                 setOpen(!isOpen);
                 console.log("open the close");
@@ -88,7 +88,7 @@ const NavBar = () => {
                 // logout();
                 setModal(!modalOpen);
               }}
-              className="hidden md:block"
+              className="hidden md:block bg-[#F8F4E1] text-[#BF9264] rounded-none cursor-pointer"
             >
               Logout
             </Button>
@@ -105,13 +105,15 @@ const NavBar = () => {
 
       <ul
         className={`md:hidden flex flex-col justify-center items-center gap-[10px] ${
-          isOpen ? "h-32" : "h-0"
-        } bg-white transition-all delay-150 duration-300 overflow-hidden w-full`}
+          isOpen ? "h-40" : "h-0"
+        } bg-[#BF9264] transition-all delay-150 duration-300 overflow-hidden w-full`}
       >
         <li>
           <Link
             href="/"
-            className={`${isActive("/home") ? "text-[#b18f67]" : ""}`}
+            className={`${
+              isActive("/home") ? "text-[white] font-medium" : "text-[#DBDBDB]"
+            }`}
           >
             Home
           </Link>
@@ -119,7 +121,9 @@ const NavBar = () => {
         <li>
           <Link
             href="/shop"
-            className={`${isActive("/shop") ? "text-[#b18f67]" : ""}`}
+            className={`${
+              isActive("/shop") ? "text-[white] font-medium" : "text-[#DBDBDB]"
+            }`}
           >
             {" "}
             Shop
@@ -128,18 +132,25 @@ const NavBar = () => {
         <li>
           <Link
             href="/"
-            className={`${isActive("/account") ? "text-[#b18f67]" : ""}`}
+            className={`${
+              isActive("/account")
+                ? "text-[white] font-medium"
+                : "text-[#DBDBDB]"
+            }`}
           >
             Account
           </Link>
         </li>
-        <li
-          onClick={() => {
-            // logout();
-            setModal(!modalOpen);
-          }}
-        >
-          Logout
+        <li>
+          <Button
+            onClick={() => {
+              // logout();
+              setModal(!modalOpen);
+            }}
+            className="bg-[#F8F4E1] text-[#BF9264] rounded-none cursor-pointer"
+          >
+            Logout
+          </Button>
         </li>
       </ul>
       <LogoutModal

@@ -1,32 +1,38 @@
+"use client";
 import { CartModel } from "@/models/cart";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 
 export interface Props {
   cart: CartModel;
   onDelete: () => void;
   loadingId?: number | null;
+  onDecrement?: (id: number, total: number) => void;
+  onIncrement?: (id: number, total: number) => void;
 }
 
 const CartComponent = (props: Props) => {
-  // Using state for the quantity
-  const [qty, setQuantity] = useState<number>(props.cart.qty ?? 1);
+  const [qty, setQty] = useState(props.cart.qty || 1);
 
-  // Decrement function to update the quantity state
   const decrement = () => {
     if (qty > 1) {
-      // Prevent going below 1
-      setQuantity(qty - 1);
-      props.cart.qty = qty;
+      const newQty = qty - 1;
+      props.cart.updateQty(newQty);
+      setQty(newQty);
+      props.onDecrement?.(props.cart.id, props.cart.product.price * newQty);
+    } else {
+      props.onDelete();
     }
+    console.log(`decrement: ${props.cart.qty}`);
   };
 
-  // Increment function to update the quantity state
   const incrementQuantity = () => {
-    setQuantity(qty + 1);
-    props.cart.qty = qty;
+    const newQty = qty + 1;
+    console.log(`increment: ${props.cart.qty}`);
+    props.cart.updateQty(newQty);
+    setQty(newQty);
+    props.onIncrement?.(props.cart.id, props.cart.product.price * newQty);
   };
 
   return (
@@ -43,7 +49,11 @@ const CartComponent = (props: Props) => {
       />
       <div className="flex flex-col">
         <p>{props.cart.product.name}</p>
-        <p className={`${qty > 1 ? "text-gray-500" : "text-black"}`}>
+        <p
+          className={`${
+            (props.cart.qty ?? 1) > 1 ? "text-gray-500" : "text-black"
+          }`}
+        >
           ₱{props.cart.product.price}{" "}
           {qty > 1 ? (
             <span className="text-black">
@@ -63,21 +73,6 @@ const CartComponent = (props: Props) => {
               onClick={incrementQuantity} // Use increment function
             />
           </div>
-
-          {props.loadingId === props.cart.id ? (
-            <div className="flex gap-[8px] items-center">
-              <ClipLoader color="red" size={16} aria-label="Loading Spinner" />
-              <p className="text-[12px] text-red-500">Loading...</p>
-            </div>
-          ) : (
-            <div
-              className="flex items-center justify-center px-[6px] py-[3px] rounded-[4px] text-red-600 cursor-pointer"
-              onClick={() => props.onDelete()}
-            >
-              <Trash2 size={16} />
-              <p className="text-[12px] text-center">Delete</p>
-            </div>
-          )}
         </div>
       </div>
     </div>
