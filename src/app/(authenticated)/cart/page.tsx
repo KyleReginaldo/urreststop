@@ -99,31 +99,33 @@ const Cart = () => {
                   key={cart.id}
                   cart={cart}
                   loadingId={cartLoading}
-                  onDelete={() => removeToCart(cart.id)}
+                  onDelete={(id) => {
+                    const _totals = total.filter((t) => t.id !== id);
+                    setTotal(_totals);
+                    removeToCart(cart.id);
+                  }}
                   onDecrement={(id, newTotal) => updateCartTotal(id, newTotal)}
                   onIncrement={(id, newTotal) => updateCartTotal(id, newTotal)}
                 />
               );
             })}
           </div>
-          <div className="flex flex-col h-fit gap-[10px] border-[1px]  p-[24px] bg-white">
+          <div className="flex flex-col min-w-[400px] gap-[10px] border-[1px] p-[24px] bg-white">
             <h1>SHIPPING/PICKUP</h1>
-            <div className="flex gap-[10px]">
-              <CInput
-                type="text"
-                placeholder="First Name"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <CInput
-                type="text"
-                placeholder="Last Name"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
+            <CInput
+              type="text"
+              placeholder="First Name"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <CInput
+              type="text"
+              placeholder="Last Name"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
             <CInput
               type="text"
               placeholder="City"
@@ -131,22 +133,20 @@ const Cart = () => {
                 console.log(e.target.value);
               }}
             />
-            <div className="flex gap-[10px]">
-              <CInput
-                type="text"
-                placeholder="Street Address"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <CInput
-                type="text"
-                placeholder="Apt, Unit, Suite, etc (Optional)"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
+            <CInput
+              type="text"
+              placeholder="Street Address"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <CInput
+              type="text"
+              placeholder="Apt, Unit, Suite, etc (Optional)"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
             <CInput
               type="text"
               placeholder="Zip Code"

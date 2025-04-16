@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export interface Props {
   cart: CartModel;
-  onDelete: () => void;
+  onDelete: (id: number) => void;
   loadingId?: number | null;
   onDecrement?: (id: number, total: number) => void;
   onIncrement?: (id: number, total: number) => void;
@@ -22,7 +22,7 @@ const CartComponent = (props: Props) => {
       setQty(newQty);
       props.onDecrement?.(props.cart.id, props.cart.product.price * newQty);
     } else {
-      props.onDelete();
+      props.onDelete(props.cart.id);
     }
     console.log(`decrement: ${props.cart.qty}`);
   };

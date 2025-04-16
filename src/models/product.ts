@@ -33,3 +33,18 @@ export class CategoryModel {
     this.is_enabled = map["is_enabled"];
   }
 }
+
+export class TypeModel {
+  id: number;
+  created_at: Date;
+  name: string;
+  is_enabled: boolean;
+
+  constructor(map: { [key: string]: any }) {
+    // Adjusted type to represent a plain object
+    this.id = map["id"];
+    this.created_at = map["created_at"];
+    this.name = map["name"];
+    this.is_enabled = map["is_enabled"];
+  }
+}
