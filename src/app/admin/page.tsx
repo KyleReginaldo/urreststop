@@ -1,119 +1,103 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ProductModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
-import { useCallback, useState } from "react";
-import { CategoryDropDown } from "../components/CategoryDropDown";
-import { TypeDropDown } from "../components/TypeDropDown";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+const AdminProduct = () => {
+  const [products, setProducts] = useState<ProductModel[] | null>(null);
 
-const Admin = () => {
-  const [file, setFile] = useState<FileList | null>(null);
-  const [name, setName] = useState<string | null>(null);
-  const [price, setPrice] = useState<number>(1);
-  const [qty, setQty] = useState<number>(1);
-  const [category, setCategory] = useState<number | null>(null);
-  const [type, setType] = useState<number | null>(null);
-  const uploadProduct = useCallback(async () => {
-    let image: string | null = null;
-    const bucket = "images";
-    if (file) {
-      const _file = file[0];
-      const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(_file.name, _file);
-      if (error) {
-        console.log(error.message);
-        alert(error.message);
-        return;
-      }
-
-      const { data: urlData } = await supabase.storage
-        .from(bucket)
-        .getPublicUrl(data?.path ?? "");
-      image = urlData.publicUrl;
-    }
-    const { error } = await supabase.from("product").insert({
-      image_link: image,
-      name,
-      price,
-      qty,
-      category,
-      type,
-    });
+  const fetchProducts = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("product")
+      .select("*, category(*), type(*)");
     if (error) {
       console.log(error.message);
-      alert(error?.message);
     }
-    return;
-  }, [file, name, price, qty, type, category]);
-
+    console.log(data);
+    const fetchedProducts = data?.map((e) => new ProductModel(e)) || [];
+    setProducts(fetchedProducts);
+  }, []);
+  useEffect(() => {
+    fetchProducts();
+  }); // Added empty d
+  const router = useRouter();
   return (
-    <div className="h-[100vh] flex items-center justify-center">
-      <div className="flex flex-col gap-[10px]">
-        <CategoryDropDown
-          onSelect={(category) => {
-            setCategory(category.id);
-          }}
-        />
-        <TypeDropDown
-          onSelect={(type) => {
-            setType(type.id);
-          }}
-        />
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="picture">Picture</Label>
-          <Input
-            id="picture"
-            type="file"
-            onChange={(e) => {
-              setFile(e.target.files);
-            }}
-          />
-        </div>
-        <Label htmlFor="name">Product Name</Label>
-        <Input
-          type="text"
-          placeholder="Product Name"
-          value={name ?? ""}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          className="w-fit"
-        />
-        <Label htmlFor="price">Price</Label>
-        <Input
-          type="text"
-          placeholder="Price"
-          min={1}
-          value={price ?? "1"}
-          onChange={(e) => {
-            setPrice(Number(e.target.value));
-          }}
-          className="w-fit"
-        />{" "}
-        <Label htmlFor="qty">Quantity</Label>
-        <Input
-          type="text"
-          min={1}
-          placeholder="Quantity"
-          value={qty ?? "1"}
-          onChange={(e) => {
-            setQty(Number(e.target.value));
-          }}
-          className="w-fit"
-        />
-        <Button
-          className="w-fit"
-          onClick={() => {
-            uploadProduct();
-          }}
-        >
-          Submit
-        </Button>
-      </div>
+    <div className="w-[100vw] p-[24px]">
+      <Button
+        onClick={() => {
+          router.push("/admin/add-product");
+        }}
+        className="mb-[16px]"
+      >
+        Add Product
+      </Button>
+      {/* <div className="grid grid-cols-3 lg:grid-cols-6 gap-[8px]">
+        {products?.map((product) => {
+          return (
+            <div
+              className="group relative bg-[#bf926466] h-[150px] lg:h-[200px] rounded-[8px]"
+              key={product.id}
+            >
+              <Image
+                alt={product.name}
+                src={product.image_link}
+                layout="fill"
+                objectFit="cover"
+                className="relative z-0 opacity-100"
+              />
+              <div className="absolute bottom-[0] left-[0] right-[0] p-[4px] text-white bg-[#000000af] rounded-bl-[8px] rounded-br-[8px]">
+                <p>{product.name}</p>
+                <p>₱{product.price}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div> */}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Image</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Qty</TableHead> <TableHead>Category</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {products?.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell className="font-medium">{product.id}</TableCell>
+              <TableCell>
+                <div>
+                  <Image
+                    src={product.image_link}
+                    alt={product.name}
+                    width={48}
+                    height={48}
+                  />
+                </div>
+              </TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.price}</TableCell>
+              <TableCell>{product.qty}</TableCell>
+              <TableCell>{product.category.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
 
-export default Admin;
+export default AdminProduct;

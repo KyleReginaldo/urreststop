@@ -65,7 +65,7 @@ const Product = ({ product }: Props) => {
   };
 
   return (
-    <div className="group relative bg-black">
+    <div className="group relative bg-black max-h-[300px] min-h-[100px] rounded-[8px]">
       <Image
         alt={product.name}
         src={product.image_link}

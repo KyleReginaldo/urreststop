@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TypeModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
+import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 interface TypeProps {
@@ -34,9 +35,9 @@ export function TypeDropDown(props: TypeProps) {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="w-fit bg-[#BF9264] text-white">
         <Button variant="outline">
-          {selected ? selected.name : "Select Type"}
+          {selected ? selected.name : "Select Type"} <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

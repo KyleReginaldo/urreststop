@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CategoryModel } from "@/models/product";
 import { supabase } from "@/utils/supabase";
+import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 interface CategoryProps {
@@ -33,9 +34,9 @@ export function CategoryDropDown(props: CategoryProps) {
   });
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="w-fit bg-[#BF9264] text-white">
         <Button variant="outline">
-          {selected ? selected.name : "Select Category"}
+          {selected ? selected.name : "Select Category"} <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
