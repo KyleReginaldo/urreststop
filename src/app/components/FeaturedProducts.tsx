@@ -10,7 +10,9 @@ const FeaturedProducts = () => {
   const [products, setProducts] = useState<ProductModel[] | null>(null);
 
   const fetchProducts = useCallback(async () => {
-    const { data } = await supabase.from("product").select("*, category(*)");
+    const { data } = await supabase
+      .from("product")
+      .select("*, category(*), type(*)");
     const fetchedProducts = data?.map((e) => new ProductModel(e)) || [];
     setProducts(fetchedProducts);
   }, []);

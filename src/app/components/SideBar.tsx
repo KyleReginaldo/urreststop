@@ -1,14 +1,21 @@
 import { Cookie, Shapes, TableRowsSplit } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+type CustomProps = {
+  closed: boolean;
+};
 
-const SideBar = () => {
+const SideBar = (props: CustomProps) => {
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
 
   return (
-    <div className="hidden md:block bg-[#BF9264] h-[100vh] px-[24px] pt-[24px]">
+    <div
+      className={`hidden md:block bg-[#BF9264] pt-[24px] ${
+        props.closed ? "w-0" : "w-60 px-[24px]"
+      }  transition-all delay-150 duration-300 `}
+    >
       <ul className="flex flex-col gap-[16px] text-white">
         <Link
           href="/admin/"

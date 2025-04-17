@@ -6,7 +6,7 @@ export class ProductModel {
   qty: number;
   category: CategoryModel;
   image_link: string;
-  type: TypeModel;
+  type: TypeModel | null;
 
   constructor(map: { [key: string]: any }) {
     // Adjusted type to represent a plain object
@@ -17,7 +17,7 @@ export class ProductModel {
     this.qty = map["qty"];
     this.category = new CategoryModel(map["category"]);
     this.image_link = map["image_link"];
-    this.type = new TypeModel(map["type"]);
+    this.type = map["type"] ? new TypeModel(map["type"]) : null;
   }
 }
 

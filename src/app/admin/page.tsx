@@ -33,7 +33,7 @@ const AdminProduct = () => {
   }); // Added empty d
   const router = useRouter();
   return (
-    <div className="w-[100vw] p-[24px]">
+    <div className="w-[100vw] h-[100vh] p-[24px] bg-[#FAFAFA]">
       <Button
         onClick={() => {
           router.push("/admin/add-product");
@@ -69,9 +69,11 @@ const AdminProduct = () => {
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>Image</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="w-[200px]">Name</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead>Qty</TableHead> <TableHead>Category</TableHead>
+            <TableHead>Qty</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -92,6 +94,7 @@ const AdminProduct = () => {
               <TableCell>{product.price}</TableCell>
               <TableCell>{product.qty}</TableCell>
               <TableCell>{product.category.name}</TableCell>
+              <TableCell>{product.type?.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

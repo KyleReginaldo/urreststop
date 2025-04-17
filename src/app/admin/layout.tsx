@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import AdminNavBar from "../components/AdminNavBar";
 import SideBar from "../components/SideBar";
 
 const Layout = ({
@@ -7,10 +9,19 @@ const Layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const [closed, setClose] = useState(false);
+
   return (
-    <div className="flex flex-col md:flex-row">
-      <SideBar />
-      {children}
+    <div className="flex flex-col md:flex-row overflow-x-hidden">
+      <SideBar closed={closed} />
+      <div className="flex flex-col">
+        <AdminNavBar
+          onToggle={(e) => {
+            setClose(e);
+          }}
+        />
+        {children}
+      </div>
     </div>
   );
 };
