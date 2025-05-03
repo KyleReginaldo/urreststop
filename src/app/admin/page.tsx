@@ -69,7 +69,8 @@ const AdminProduct = () => {
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>Image</TableHead>
-            <TableHead className="w-[200px]">Name</TableHead>
+            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Flavors</TableHead>
             <TableHead>Price</TableHead>
             <TableHead>Qty</TableHead>
             <TableHead>Category</TableHead>
@@ -81,16 +82,28 @@ const AdminProduct = () => {
             <TableRow key={product.id}>
               <TableCell className="font-medium">{product.id}</TableCell>
               <TableCell>
-                <div>
-                  <Image
-                    src={product.image_link}
-                    alt={product.name}
-                    width={48}
-                    height={48}
-                  />
+                <div className="flex flex-wrap">
+                  {product.image_links.map((e, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        src={e}
+                        alt={product.name}
+                        width={48}
+                        height={48}
+                      />
+                    );
+                  })}
                 </div>
               </TableCell>
-              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.name}</TableCell>{" "}
+              <TableCell>
+                <ol>
+                  {product.flavors.map((e, index) => {
+                    return <li key={index}>{e}</li>;
+                  })}
+                </ol>
+              </TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>{product.qty}</TableCell>
               <TableCell>{product.category.name}</TableCell>

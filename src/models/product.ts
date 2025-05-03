@@ -5,7 +5,9 @@ export class ProductModel {
   price: number;
   qty: number;
   category: CategoryModel;
-  image_link: string;
+  image_links: string[];
+  flavors: string[];
+
   type: TypeModel | null;
 
   constructor(map: { [key: string]: any }) {
@@ -16,7 +18,8 @@ export class ProductModel {
     this.price = map["price"];
     this.qty = map["qty"];
     this.category = new CategoryModel(map["category"]);
-    this.image_link = map["image_link"];
+    this.image_links = map["image_links"];
+    this.flavors = map["flavors"];
     this.type = map["type"] ? new TypeModel(map["type"]) : null;
   }
 }

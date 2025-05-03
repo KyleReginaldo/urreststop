@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from "react";
 
 interface TypeProps {
   onSelect: (type: TypeModel) => void;
+  category: number;
 }
 
 export function TypeDropDown(props: TypeProps) {
@@ -20,7 +21,11 @@ export function TypeDropDown(props: TypeProps) {
   const [selected, setSelectedType] = useState<TypeModel | null>(null);
 
   const getTypes = useCallback(async () => {
-    const { data, error } = await supabase.from("type").select();
+    const { data, error } = await supabase
+      .from("type")
+      .select()
+      .or(`category.eq.${props.category},special.is.true`);
+
     const _types = data?.map((e) => {
       return new TypeModel(e);
     });
@@ -28,7 +33,7 @@ export function TypeDropDown(props: TypeProps) {
       return;
     }
     setTypes(_types ?? []);
-  }, []);
+  }, [props.category]);
 
   useEffect(() => {
     getTypes();

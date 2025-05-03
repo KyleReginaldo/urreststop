@@ -12,9 +12,7 @@ const SideBar = (props: CustomProps) => {
 
   return (
     <div
-      className={`hidden md:block bg-[#BF9264] pt-[24px] ${
-        props.closed ? "w-0" : "w-60 px-[24px]"
-      }  transition-all delay-150 duration-300 `}
+      className={`hidden md:block bg-[#BF9264] pt-[24px] px-[24px] transition-all delay-150 duration-300 `}
     >
       <ul className="flex flex-col gap-[16px] text-white">
         <Link
@@ -26,7 +24,13 @@ const SideBar = (props: CustomProps) => {
           } flex items-center gap-[8px]`}
         >
           <Cookie />
-          Product
+          <p
+            className={`${
+              props.closed ? "hidden" : ""
+            } transition-all duration-300 ease-in-out`}
+          >
+            Product
+          </p>
         </Link>
         <Link
           href="/admin/category"
@@ -37,7 +41,13 @@ const SideBar = (props: CustomProps) => {
           } flex items-center gap-[8px]`}
         >
           <Shapes />
-          Category
+          <p
+            className={`${
+              props.closed ? "hidden" : ""
+            } transition-all duration-300 ease-in-out`}
+          >
+            Category
+          </p>
         </Link>
         <Link
           href="/admin/type"
@@ -48,7 +58,13 @@ const SideBar = (props: CustomProps) => {
           } flex items-center gap-[8px]`}
         >
           <TableRowsSplit />
-          Type
+          <p
+            className={`${
+              props.closed ? "hidden" : ""
+            } transition-all duration-300 ease-in-out`}
+          >
+            Type
+          </p>
         </Link>
       </ul>
     </div>
