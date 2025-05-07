@@ -6,7 +6,7 @@ import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-import Image from "next/image";
+// import Image from "next/image";
 const AdminProduct = () => {
   const [products, setProducts] = useState<ProductModel[] | null>(null);
 
@@ -36,13 +36,13 @@ const AdminProduct = () => {
               className="group relative bg-black h-[150px] lg:h-[200px] rounded-[8px]"
               key={product.id}
             >
-              <Image
+              {/* <Image
                 alt={product.name}
-                src={product.image_link}
+                src={product.image_links}
                 layout="fill"
                 objectFit="cover"
                 className="relative z-0 opacity-80"
-              />
+              /> */}
               <div className="absolute bottom-[8px] left-[8px] text-white">
                 <p>{product.name}</p>
                 <p>₱{product.price}</p>

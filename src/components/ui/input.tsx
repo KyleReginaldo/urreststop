@@ -14,9 +14,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         className
       )}
       {...props}
-      onSubmit={() => {
-        console.log("submit add");
-      }}
+
     />
   );
 }
