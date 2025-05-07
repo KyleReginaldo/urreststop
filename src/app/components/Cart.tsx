@@ -41,7 +41,7 @@ const CartComponent = (props: Props) => {
       className="flex items-center gap-[16px] max-w-[500px]"
     >
       <Image
-        src={props.cart.product.image_link}
+        src={props.cart.product.image_links[0]}
         alt={props.cart.product.name}
         width={100}
         height={100}

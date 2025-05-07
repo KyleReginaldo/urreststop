@@ -59,7 +59,7 @@ const Product = ({ product }: Props) => {
       <div className="relative w-[200px] h-[200px] flex items-center justify-center">
         <Image
           alt={product.name}
-          src={product.image_links[0]}
+          src={product.image_links[0]s[0]}
           layout="fill"
           className="object-contain"
         />

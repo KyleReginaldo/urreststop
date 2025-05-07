@@ -83,7 +83,7 @@ const Shop = () => {
               // <div key={product.id} className="flex flex-col gap-[8px]">
               //   <Image
               //     alt={product.name}
-              //     src={product.image_link}
+              //     src={product.image_links[0]}
               //     layout="fill"
               //     objectFit="cover"
               //     className="!relative z-0"

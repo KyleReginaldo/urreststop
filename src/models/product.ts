@@ -18,7 +18,7 @@ export class ProductModel {
     this.price = map["price"];
     this.qty = map["qty"];
     this.category = new CategoryModel(map["category"]);
-    this.image_links = map["image_links"];
+    this.image_links[0]s = map["image_links"];
     this.flavors = map["flavors"];
     this.type = map["type"] ? new TypeModel(map["type"]) : null;
   }

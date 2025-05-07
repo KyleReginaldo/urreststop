@@ -38,7 +38,7 @@ const AdminProduct = () => {
             >
               {/* <Image
                 alt={product.name}
-                src={product.image_links}
+                src={product.image_links[0]s}
                 layout="fill"
                 objectFit="cover"
                 className="relative z-0 opacity-80"

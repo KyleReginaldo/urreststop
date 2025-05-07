@@ -40,7 +40,7 @@ function ShopDetails() {
           <div className="flex flex-col items-start max-w-[700px] gap-[16px]">
             <Image
               alt={product!.name}
-              src={product!.image_link}
+              src={product!.image_links[0]}
               width={400}
               height={400}
               objectFit="cover"

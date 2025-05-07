@@ -51,7 +51,7 @@ const AdminProduct = () => {
             >
               <Image
                 alt={product.name}
-                src={product.image_link}
+                src={product.image_links[0]}
                 layout="fill"
                 objectFit="cover"
                 className="relative z-0 opacity-100"
@@ -83,7 +83,7 @@ const AdminProduct = () => {
               <TableCell className="font-medium">{product.id}</TableCell>
               <TableCell>
                 <div className="flex flex-wrap">
-                  {product.image_links.map((e, index) => {
+                  {product.image_links[0]s.map((e, index) => {
                     return (
                       <Image
                         key={index}
