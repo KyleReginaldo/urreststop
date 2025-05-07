@@ -15,15 +15,8 @@ import { useCallback, useEffect, useState } from "react";
 
 const Category = () => {
   const [name, setName] = useState<string | null>(null);
-  const [loaidng, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const testData = [
-    {
-      id: 1,
-      name: "data 1",
-      createdAt: "1 min ago",
-    },
-  ];
 
   const createCategory = async () => {
     try {
@@ -43,6 +36,7 @@ const Category = () => {
   const fetchCategories = useCallback(async () => {
     const newCategories: CategoryModel[] = [];
     setLoading(true);
+    console.log(loading ?? true);
     const { data, error } = await supabase.from("category").select();
     if (error) {
       setLoading(false);
@@ -56,7 +50,7 @@ const Category = () => {
     fetchCategories();
 
     return;
-  }, []);
+  }, [loading]);
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
@@ -98,7 +92,7 @@ const Category = () => {
               <TableRow key={index}>
                 <TableCell>{data.id}</TableCell>
                 <TableCell>{data.name}</TableCell>
-                <TableCell>{data.created_at.getUTCDate}</TableCell>
+                <TableCell>{data.created_at.toString()}</TableCell>
                 <TableCell>
                   <Button className="bg-red-500">Remove</Button>
                   <Button className="bg-blue-500">Remove</Button>
