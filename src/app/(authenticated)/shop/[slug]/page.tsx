@@ -54,7 +54,7 @@ function ShopDetails() {
               satisfying your sweet tooth cravings.
             </p>
             <p className="text-[18px]">Quantity</p>
-            <div className="flex gap-[8px] items-center">
+            <div className="flex flex-row gap-[8px] items-center">
               <Minus
                 size={16}
                 onClick={decrement} // Use decrement function
