@@ -83,7 +83,7 @@ const AdminProduct = () => {
               <TableCell className="font-medium">{product.id}</TableCell>
               <TableCell>
                 <div className="flex flex-wrap">
-                  {product.image_links[0]s.map((e, index) => {
+                  {product.image_links.map((e, index) => {
                     return (
                       <Image
                         key={index}
